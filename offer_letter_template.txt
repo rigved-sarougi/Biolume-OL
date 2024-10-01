@@ -1,0 +1,20 @@
+{{ company_name }}
+
+Dear {{ name }},
+
+We are thrilled to extend this offer of employment to you for the position of {{ designation }} at {{ company_name }} Noida. We are confident that your extensive experience and expertise will significantly contribute to our team's success.
+
+We are pleased to offer you a monthly gross salary of Rs. {{ salary }}/-. Your date of joining would be {{ joining_date }} and the office timings are as follows:
+
+Monday to Saturday (10:00 AM to 7:00 PM)
+2 Alternate Saturdays are off
+
+Your probation period of 3 months and your notice period will be of 1 month, during which time you are expected to fulfill your responsibilities to the best of your abilities. You will be eligible for salary restructure after successfully completing the probation period.
+
+We are delighted to welcome you to the {{ company_name }} family. Congratulations once again on becoming a part of our team.
+
+Thanks & Regards,
+Kumud Kr Dwivedi
+Head Human Resources & People Management
+{{ company_name }}
++91-9560476500
