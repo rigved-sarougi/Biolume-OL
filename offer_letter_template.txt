@@ -1,20 +1,43 @@
 {{ company_name }}
+[Company Address]
+[Company Contact Information]
+
+Date: {{ current_date }}
+
+**PRIVATE & CONFIDENTIAL**
+
+**To,**
+{{ name }}
+[Address of the Candidate]
+
+Subject: Offer of Employment
 
 Dear {{ name }},
 
-We are thrilled to extend this offer of employment to you for the position of {{ designation }} at {{ company_name }} Noida. We are confident that your extensive experience and expertise will significantly contribute to our team's success.
+We are pleased to extend to you an offer of employment at **{{ company_name }}** for the position of **{{ designation }}**. After careful consideration, we are confident that your qualifications and experience make you the perfect candidate to join our dynamic team. We look forward to your contributions to help drive our organization to new levels of success.
 
-We are pleased to offer you a monthly gross salary of Rs. {{ salary }}/-. Your date of joining would be {{ joining_date }} and the office timings are as follows:
+### Compensation and Benefits
 
-Monday to Saturday (10:00 AM to 7:00 PM)
-2 Alternate Saturdays are off
+As part of your employment, you will receive a monthly gross salary of **INR {{ salary }}/-** (Indian Rupees). In addition, you will be eligible for any performance-based incentives and benefits as per the company's policies.
 
-Your probation period of 3 months and your notice period will be of 1 month, during which time you are expected to fulfill your responsibilities to the best of your abilities. You will be eligible for salary restructure after successfully completing the probation period.
+Your start date will be **{{ joining_date }}**, and your working hours will be from **10:00 AM to 7:00 PM**, Monday through Saturday, with two alternate Saturdays off each month. 
 
-We are delighted to welcome you to the {{ company_name }} family. Congratulations once again on becoming a part of our team.
+### Probation and Notice Period
 
-Thanks & Regards,
-Kumud Kr Dwivedi
-Head Human Resources & People Management
-{{ company_name }}
+You will undergo a probation period of **3 months**, during which your performance will be closely monitored. Upon successful completion of the probation period, your employment will be confirmed, and your salary structure will be reviewed. The notice period required from either party for termination of the employment contract will be **1 month**.
+
+### Next Steps
+
+We request you to carefully review this offer and confirm your acceptance by signing and returning a copy of this letter. Should you have any questions or need further clarification, please do not hesitate to reach out to us at the contact information below.
+
+We look forward to welcoming you to the **{{ company_name }}** family and working closely with you to achieve new milestones together. We believe that with your skills and expertise, you will thrive in your role and make a significant impact on our team and organization.
+
+Once again, congratulations on this exciting new chapter in your career!
+
+Warm Regards,
+
+**Kumud Kr Dwivedi**  
+Head, Human Resources & People Management  
+**{{ company_name }}**  
+[Company Contact Information]  
 +91-9560476500
