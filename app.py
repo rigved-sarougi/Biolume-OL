@@ -13,14 +13,13 @@ template = env.get_template('offer_letter_template.txt')
 # Streamlit App Title
 st.title("Offer Letter Generator")
 
-# Upload company logo
 logo = st.file_uploader("Upload Company Logo", type=["png", "jpg", "jpeg"])
 if logo is not None:
     st.image(logo, caption="Uploaded Company Logo", use_column_width=True)
 
 # Streamlit form for input
 with st.form("offer_letter_form"):
-    company_name = st.text_input("Company Name", value="Biolume Skin Science Pvt. Ltd.")
+    company_name = "Biolume Skin Science Pvt. Ltd."
     name = st.text_input("Employee Name")
     designation = st.text_input("Employee Designation")
     salary = st.text_input("Employee Salary (in Rs.)")
@@ -49,18 +48,22 @@ if submitted:
     # Option to download as PDF
     class PDF(FPDF):
         def header(self):
+            # Set the background image (A4 Size: 210x297 mm)
             if os.path.exists('Black & Orange Professional Company Letter A4 Document.png'):
-                self.image('Black & Orange Professional Company Letter A4 Document.png', x=0, y=0, w=210, h=297)  # A4 size in mm (210 x 297)
+                self.image('Black & Orange Professional Company Letter A4 Document.png', x=0, y=0, w=210, h=297)
             if logo is not None:
                 self.image(logo, 10, 8, 33)
 
         def offer_letter_body(self, body):
-            self.set_xy(10, 40)  # Adjust text position to avoid overlapping the logo and background
+            # Margins and text positioning
+            margin_left = 20  # Left margin in mm
+            margin_top = 50   # Top margin in mm
+            self.set_xy(margin_left, margin_top)
             self.set_font('Arial', '', 12)
             self.multi_cell(0, 10, body)
-    
+
     # Create PDF
-    pdf = PDF()
+    pdf = PDF(orientation='P', unit='mm', format='A4')
     pdf.add_page()
 
     # Add offer letter content to the PDF
