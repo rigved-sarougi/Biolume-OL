@@ -3,13 +3,6 @@ from jinja2 import Environment, FileSystemLoader
 from fpdf import FPDF
 import os
 
-# Set up page title and favicon (must be the first Streamlit command)
-st.set_page_config(
-    page_title="Offer Letter Generator",
-    page_icon=":briefcase:",
-    layout="wide"
-)
-
 # Set up environment for Jinja2 to load templates
 TEMPLATE_DIR = os.path.dirname(os.path.abspath(__file__))
 env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
@@ -17,162 +10,74 @@ env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
 # Load offer letter template
 template = env.get_template('offer_letter_template.txt')
 
-# Custom CSS for professional styling
-st.markdown("""
-    <style>
-    /* Custom fonts from Google Fonts */
-    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+# Streamlit App Title
+st.title("Offer Letter Generator")
 
-    body {
-        font-family: 'Roboto', sans-serif;
-    }
+# Upload company logo
+logo = st.file_uploader("Upload Company Logo", type=["png", "jpg", "jpeg"])
+if logo is not None:
+    st.image(logo, caption="Uploaded Company Logo", use_column_width=True)
 
-    h1 {
-        color: #333333;
-        text-align: center;
-        padding: 10px;
-    }
-
-    .stApp {
-        background-color: #f4f4f4;
-        padding: 20px;
-    }
-
-    .main-container {
-        background-color: white;
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
-        margin-top: 20px;
-    }
-
-    .company-info {
-        text-align: center;
-        font-size: 1.2em;
-        font-weight: 500;
-        color: #4CAF50;
-        margin-bottom: 40px;
-    }
-
-    .stTextInput > div {
-        padding-bottom: 15px;
-    }
-
-    .stDownloadButton > button {
-        background-color: #4CAF50;
-        color: white;
-        border-radius: 8px;
-        padding: 10px 20px;
-        font-weight: bold;
-    }
-
-    .stDownloadButton > button:hover {
-        background-color: #45A049;
-    }
-
-    textarea {
-        font-size: 1.1em;
-        line-height: 1.6;
-    }
-
-    footer {
-        text-align: center;
-        font-size: 0.8em;
-        color: #666;
-        padding: 20px 0;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-
-# Streamlit App Title and Description
-st.markdown("<h1>Professional Offer Letter Generator</h1>", unsafe_allow_html=True)
-
-# Main Container
-with st.container():
-    st.markdown("<div class='main-container'>", unsafe_allow_html=True)
-
-    # Company Name and Logo Section
-    col1, col2 = st.columns([1, 2])
-    
-    with col1:
-        # Upload company logo
-        logo = st.file_uploader("Upload Company Logo", type=["png", "jpg", "jpeg"])
-        if logo:
-            st.image(logo, caption="Company Logo", use_column_width=True)
-
-    with col2:
-        # Company Name Input
-        company_name = st.text_input("Company Name", value="Biolume Skin Science Pvt. Ltd.")
-    
-    st.markdown("<div class='company-info'>" + company_name + "</div>", unsafe_allow_html=True)
-
-    # Employee and Offer Details Section
-    st.markdown("<h3>Employee Details</h3>", unsafe_allow_html=True)
+# Streamlit form for input
+with st.form("offer_letter_form"):
+    company_name = st.text_input("Company Name", value="Biolume Skin Science Pvt. Ltd.")
     name = st.text_input("Employee Name")
     designation = st.text_input("Employee Designation")
     salary = st.text_input("Employee Salary (in Rs.)")
     joining_date = st.date_input("Joining Date")
 
     # Submit button
-    generate_button = st.button("Generate Offer Letter")
+    submitted = st.form_submit_button("Generate Offer Letter")
 
-    if generate_button and name and designation and salary and joining_date:
-        # Employee data to fill in the template
-        employee_data = {
-            "company_name": company_name,
-            "name": name,
-            "designation": designation,
-            "salary": salary,
-            "joining_date": joining_date.strftime("%B %d, %Y")
-        }
+if submitted:
+    # Employee data to fill in the template
+    employee_data = {
+        "company_name": company_name,
+        "name": name,
+        "designation": designation,
+        "salary": salary,
+        "joining_date": joining_date.strftime("%B %d, %Y")
+    }
 
-        # Render the offer letter content
-        offer_letter_content = template.render(employee_data)
+    # Render the offer letter content
+    offer_letter_content = template.render(employee_data)
 
-        # Display offer letter preview in a styled textarea
-        st.markdown("<h3>Offer Letter Preview</h3>", unsafe_allow_html=True)
-        st.text_area("", value=offer_letter_content, height=300)
+    # Display offer letter preview
+    st.subheader("Preview Offer Letter:")
+    st.text(offer_letter_content)
 
-        # Option to download as PDF
-        pdf = FPDF()
-        pdf.add_page()
+    # Option to download as PDF
+    class PDF(FPDF):
+        def header(self):
+            if os.path.exists('Black & Orange Professional Company Letter A4 Document.png'):
+                self.image('Black & Orange Professional Company Letter A4 Document.png', x=0, y=0, w=210, h=297)  # A4 size in mm (210 x 297)
+            if logo is not None:
+                self.image(logo, 10, 8, 33)
 
-        # Add the company logo to the PDF if uploaded
-        if logo:
-            logo_path = f"temp_logo_{name}.png"
-            with open(logo_path, "wb") as f:
-                f.write(logo.getbuffer())
-            pdf.image(logo_path, 10, 8, 33)
-            os.remove(logo_path)  # Clean up the temporary logo file
+        def offer_letter_body(self, body):
+            self.set_xy(10, 40)  # Adjust text position to avoid overlapping the logo and background
+            self.set_font('Arial', '', 12)
+            self.multi_cell(0, 10, body)
+    
+    # Create PDF
+    pdf = PDF()
+    pdf.add_page()
 
-        pdf.set_font('Arial', '', 12)
-        pdf.ln(20)  # Space after the logo
-        pdf.multi_cell(0, 10, offer_letter_content)
+    # Add offer letter content to the PDF
+    pdf.offer_letter_body(offer_letter_content)
 
-        # Save the PDF in memory
-        pdf_output = f"Offer_Letter_{name}.pdf"
-        pdf.output(pdf_output)
+    # Save the PDF in memory
+    pdf_output = f"Offer_Letter_{name}.pdf"
+    pdf.output(pdf_output)
 
-        with open(pdf_output, "rb") as pdf_file:
-            st.download_button(
-                label="Download Offer Letter as PDF",
-                data=pdf_file,
-                file_name=pdf_output,
-                mime='application/pdf'
-            )
+    with open(pdf_output, "rb") as pdf_file:
+        st.download_button(
+            label="Download Offer Letter as PDF",
+            data=pdf_file,
+            file_name=pdf_output,
+            mime='application/octet-stream'
+        )
 
-        # Remove the generated PDF after serving it
-        if os.path.exists(pdf_output):
-            os.remove(pdf_output)
-
-    st.markdown("</div>", unsafe_allow_html=True)
-
-# Footer
-st.markdown(
-    """
-    <footer>
-    Developed by Biolume Skin Science Pvt. Ltd.
-    </footer>
-    """,
-    unsafe_allow_html=True
-)
+    # Optionally, remove the file after serving it
+    if os.path.exists(pdf_output):
+        os.remove(pdf_output)
