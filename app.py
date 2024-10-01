@@ -3,6 +3,13 @@ from jinja2 import Environment, FileSystemLoader
 from fpdf import FPDF
 import os
 
+# Set up page title and favicon (must be the first Streamlit command)
+st.set_page_config(
+    page_title="Offer Letter Generator",
+    page_icon=":briefcase:",
+    layout="wide"
+)
+
 # Set up environment for Jinja2 to load templates
 TEMPLATE_DIR = os.path.dirname(os.path.abspath(__file__))
 env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
@@ -76,13 +83,6 @@ st.markdown("""
     }
     </style>
     """, unsafe_allow_html=True)
-
-# Set up page title and favicon
-st.set_page_config(
-    page_title="Offer Letter Generator",
-    page_icon=":briefcase:",
-    layout="wide"
-)
 
 # Streamlit App Title and Description
 st.markdown("<h1>Professional Offer Letter Generator</h1>", unsafe_allow_html=True)
