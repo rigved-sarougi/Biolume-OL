@@ -14,7 +14,7 @@ template = env.get_template('offer_letter_template.txt')
 st.title("Offer Letter Generator")
 
 # Logo image path - ensure the logo is in the same directory as the script
-logo = 'Untitled design.png'
+logo = 'Untitled design (4) (1).png'
 
 # Form to collect user input
 with st.form("offer_letter_form"):
