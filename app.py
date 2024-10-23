@@ -15,21 +15,22 @@ template = env.get_template('offer_letter_template.txt')
 
 st.title("Offer Letter Generator")
 
-logo = 'Untitled design.png'  # Logo file
+logo = 'Untitled design.png'  # Logo file path
 background_image = 'ddd.png'  # Background image for A4
 
+# Form for input
 with st.form("offer_letter_form"):
-    company_name = "Biolume Skin Science Pvt. Ltd."
     name = st.text_input("Employee Name")
     designation = st.text_input("Employee Designation")
     salary = st.text_input("Employee Salary (in Rs.)")
     joining_date = st.date_input("Joining Date")
+    email = st.text_input("Employee Email")  # New field for email
 
     submitted = st.form_submit_button("Generate Offer Letter")
 
 if submitted:
+    # Prepare employee data for the template
     employee_data = {
-        "company_name": company_name,
         "name": name,
         "designation": designation,
         "salary": salary,
@@ -43,14 +44,9 @@ if submitted:
 
     class PDF(FPDF):
         def header(self):
-            # Add logo to the header in the center
             if os.path.exists(logo):
-                self.image(logo, x=85, y=10, w=40)  # Adjust x, y, w as needed
-
-        def footer(self):
-            self.set_y(-15)
-            self.set_font('Arial', 'I', 8)
-            self.cell(0, 10, f'Page {self.page_no()}', 0, 0, 'C')
+                self.image(logo, x=85, y=10, w=40)  # Center the logo
+            self.ln(20)  # Space after header
 
         def offer_letter_body(self, body):
             self.set_xy(20, 50)  # Set position for text
@@ -77,7 +73,7 @@ if submitted:
     # Email sending function
     def send_email(to_email, subject, body, attachment_file):
         from_email = "dataanalyst@biolume.in"  # Your email address
-        password = "bio6666666@"  # Use your App Password here
+        password = "bio666666@"  # Use your App Password here
 
         # Create a multipart email message
         msg = MIMEMultipart()
@@ -112,16 +108,19 @@ if submitted:
 
     # Send email button
     if st.button("Send Offer Letter via Email"):
-        email_result = send_email(
-            to_email=name,  # Use the employee's email or another email field
-            subject=f"Offer Letter for {name}",
-            body=offer_letter_content,
-            attachment_file=pdf_output
-        )
-        if email_result is True:
-            st.success("Email sent successfully!")
+        if email:  # Check if email is provided
+            email_result = send_email(
+                to_email=email,
+                subject=f"Offer Letter for {name}",
+                body=offer_letter_content,
+                attachment_file=pdf_output
+            )
+            if email_result is True:
+                st.success("Email sent successfully!")
+            else:
+                st.error(f"Failed to send email: {email_result}")
         else:
-            st.error(f"Failed to send email: {email_result}")
+            st.error("Please provide a valid email address.")
 
     # Clean up the generated PDF file
     if os.path.exists(pdf_output):
