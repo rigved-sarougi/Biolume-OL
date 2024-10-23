@@ -18,7 +18,6 @@ logo = 'Untitled design (4) (1).png'
 
 # Form to collect user input
 with st.form("offer_letter_form"):
-    company_name = "Biolume Skin Science Pvt. Ltd."
     name = st.text_input("Employee Name")
     designation = st.text_input("Employee Designation")
     salary = st.text_input("Employee Salary (in Rs.)")
@@ -31,7 +30,6 @@ with st.form("offer_letter_form"):
 if submitted:
     # Prepare the data for rendering the template
     employee_data = {
-        "company_name": company_name,
         "name": name,
         "designation": designation,
         "salary": salary,
@@ -56,10 +54,6 @@ if submitted:
                 self.image(logo, x=x_position, y=15, w=logo_width)  # y=15 for top margin
 
             self.ln(30)  # Adjust the space after the logo
-
-            # Add bold company name under the logo, centered
-            self.set_font('Arial', 'B', 14)  # Bold, 14pt font
-            self.cell(0, 10, 'Biolume Skin Science Pvt. Ltd.', ln=True, align='C')
 
         def offer_letter_body(self, body):
             # Set margins and font for content
