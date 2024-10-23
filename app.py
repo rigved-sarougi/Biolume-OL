@@ -48,28 +48,24 @@ if submitted:
     # Define a custom PDF class to create the offer letter in A4 size
     class PDF(FPDF):
         def header(self):
-            # Set the header with text instead of an image
+            # Set the header with text and logo (minimal spacing)
             self.set_font('Arial', 'B', 12)
-            self.cell(0, 10, 'Biolume Skin Science Pvt. Ltd.', ln=True, align='C')
-            self.cell(0, 10, 'Ground Floor, Rampal Awana Complex', ln=True, align='C')
-            self.cell(0, 10, 'Rampal Awana Complex, Indra Market', ln=True, align='C')
-            self.cell(0, 10, 'Sector-27, Atta, Gautambuddha Nagar, Noida Uttar Pradesh 201301', ln=True, align='C')
-            self.ln(20)  # Adds space after the header
-            
-            # Insert logo at the top-left corner
             if os.path.exists(logo):
-                self.image(logo, 10, 8, 33)  # Adjust these values if the logo is not appearing
+                self.image(logo, 10, 8, 30)  # Logo at top left (size = 30mm wide)
+            self.set_xy(50, 10)  # Adjust positioning after the logo
+            self.multi_cell(0, 5, 'Biolume Skin Science Pvt. Ltd.\nGround Floor, Rampal Awana Complex\nRampal Awana Complex, Indra Market\nSector-27, Atta, Gautambuddha Nagar\nNoida Uttar Pradesh 201301', align='C')
+            self.ln(10)  # Minimal space after the header
 
         def offer_letter_body(self, body):
             # Set margins for A4 format (standard A4 width = 210mm, height = 297mm)
-            margin_left = 20
-            margin_top = 60
-            self.set_xy(margin_left, margin_top)
+            self.set_left_margin(20)
+            self.set_right_margin(20)
+            self.set_top_margin(50)
             self.set_font('Arial', '', 12)
-            self.multi_cell(0, 10, body)
+            self.multi_cell(0, 8, body)  # Reducing the line height to 8 for tighter content
 
         def footer(self):
-            # Add footer information (page number or additional details if needed)
+            # Add footer information (page number)
             self.set_y(-15)
             self.set_font('Arial', 'I', 8)
             self.cell(0, 10, f'Page {self.page_no()}', 0, 0, 'C')
