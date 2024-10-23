@@ -48,12 +48,12 @@ if submitted:
     # Define a custom PDF class to create the offer letter in A4 size
     class PDF(FPDF):
         def header(self):
-            # Set the header with text and logo (minimal spacing)
+            # Set the header with logo and company name (minimal spacing, no address)
             self.set_font('Arial', 'B', 12)
             if os.path.exists(logo):
                 self.image(logo, 10, 8, 30)  # Logo at top left (size = 30mm wide)
             self.set_xy(50, 10)  # Adjust positioning after the logo
-            self.multi_cell(0, 5, 'Biolume Skin Science Pvt. Ltd.\nGround Floor, Rampal Awana Complex\nRampal Awana Complex, Indra Market\nSector-27, Atta, Gautambuddha Nagar\nNoida Uttar Pradesh 201301', align='C')
+            self.cell(0, 10, 'Biolume Skin Science Pvt. Ltd.', ln=True, align='C')
             self.ln(10)  # Minimal space after the header
 
         def offer_letter_body(self, body):
