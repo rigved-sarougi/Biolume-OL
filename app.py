@@ -13,8 +13,9 @@ template = env.get_template('offer_letter_template.txt')
 # Streamlit app title
 st.title("Offer Letter Generator")
 
-# Logo image path - ensure the logo is in the same directory as the script
-logo = 'Untitled design (4) (1).png'
+# Logo image path and background image path
+logo = 'Untitled design.png'
+background_image = 'ddd.png'  # Path to the background image
 
 # Form to collect user input
 with st.form("offer_letter_form"):
@@ -46,6 +47,10 @@ if submitted:
     # Define a custom PDF class to create the offer letter in A4 size
     class PDF(FPDF):
         def header(self):
+            # Add background image for the entire page
+            if os.path.exists(background_image):
+                self.image(background_image, x=0, y=0, w=210, h=297)  # A4 size dimensions
+
             # Place the logo at the top middle of the page, smaller size
             if os.path.exists(logo):
                 page_width = self.w  # Get page width
