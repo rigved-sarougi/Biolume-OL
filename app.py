@@ -13,7 +13,7 @@ template = env.get_template('offer_letter_template.txt')
 # Streamlit app title
 st.title("Offer Letter Generator")
 
-# Logo image path
+# Logo image path - ensure the logo is in the same directory as the script
 logo = 'Untitled design.png'
 
 # Form to collect user input
@@ -55,6 +55,10 @@ if submitted:
             self.cell(0, 10, 'Rampal Awana Complex, Indra Market', ln=True, align='C')
             self.cell(0, 10, 'Sector-27, Atta, Gautambuddha Nagar, Noida Uttar Pradesh 201301', ln=True, align='C')
             self.ln(20)  # Adds space after the header
+            
+            # Insert logo at the top-left corner
+            if os.path.exists(logo):
+                self.image(logo, 10, 8, 33)  # Adjust these values if the logo is not appearing
 
         def offer_letter_body(self, body):
             # Set margins for A4 format (standard A4 width = 210mm, height = 297mm)
