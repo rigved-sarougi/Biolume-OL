@@ -10,17 +10,17 @@ Dear {{ name }},
 
 We are pleased to extend to you an offer of employment at Biolume Skin Science Pvt. Ltd. for the position of {{ designation }}. After careful consideration, we are confident that your qualifications and experience make you the perfect candidate to join our dynamic team. We look forward to your contributions to help drive our organization to new levels of success.
 
-#Compensation and Benefits
+Compensation and Benefits:
 
 As part of your employment, you will receive a monthly gross salary of INR {{ salary }}/- (Indian Rupees). In addition, you will be eligible for any performance-based incentives and benefits as per the company's policies.
 
 Your start date will be {{ joining_date }}, and your working hours will be from 10:00 AM to 7:00 PM, Monday through Saturday, with two alternate Saturdays off each month. 
 
-Probation and Notice Period
+Probation and Notice Period:
 
 You will undergo a probation period of 3 months, during which your performance will be closely monitored. Upon successful completion of the probation period, your employment will be confirmed, and your salary structure will be reviewed. The notice period required from either party for termination of the employment contract will be 1 month.
 
-Next Steps
+Next Steps:
 
 We request you to carefully review this offer and confirm your acceptance by signing and returning a copy of this letter. Should you have any questions or need further clarification, please do not hesitate to reach out to us at the contact information below.
 
