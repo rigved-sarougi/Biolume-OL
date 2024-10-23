@@ -36,11 +36,3 @@ Head, Human Resources & People Management
 Biolume Skin Science Pvt. Ltd.  
 Noida Uttar Pradesh 201301 
 +91-9560476500
-
-
-
-
-
-
-
-make heading and important deatils bold
