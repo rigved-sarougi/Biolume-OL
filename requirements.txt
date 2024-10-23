@@ -2,3 +2,4 @@ streamlit
 jinja2
 fpdf2
 pillow
+fpdf
