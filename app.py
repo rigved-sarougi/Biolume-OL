@@ -10,9 +10,7 @@ template = env.get_template('offer_letter_template.txt')
 
 st.title("Offer Letter Generator")
 
-logo = st.file_uploader("Upload Company Logo", type=["png", "jpg", "jpeg"])
-if logo is not None:
-    st.image(logo, caption="Uploaded Company Logo", use_column_width=True)
+logo = 'Untitled design.png'
 
 with st.form("offer_letter_form"):
     company_name = "Biolume Skin Science Pvt. Ltd."
