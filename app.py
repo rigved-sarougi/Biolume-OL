@@ -122,21 +122,25 @@ if submitted:
             msg.attach(part)
 
         # Send the email
-        with smtplib.SMTP('smtp.example.com', 587) as server:  # Use your SMTP server
-            server.starttls()  # Upgrade to secure connection
-            server.login(from_email, password)
-            server.send_message(msg)
+        try:
+            with smtplib.SMTP('smtp.gmail.com', 587) as server:  # Update to your SMTP server
+                server.starttls()  # Upgrade to secure connection
+                server.login(from_email, password)
+                server.send_message(msg)
+            return True
+        except Exception as e:
+            return False, str(e)
 
     # Send email with the offer letter
     email_subject = f"Offer Letter for {name}"
     email_body = f"Dear {name},\n\nPlease find attached your offer letter.\n\nBest Regards,\nBiolume Skin Science Pvt. Ltd."
     
     if email:
-        try:
-            send_email(email, email_subject, email_body, pdf_output)
+        result = send_email(email, email_subject, email_body, pdf_output)
+        if result is True:
             st.success(f"Offer letter sent successfully to {email}!")
-        except Exception as e:
-            st.error(f"Failed to send email: {e}")
+        else:
+            st.error(f"Failed to send email: {result[1]}")
 
     # Remove the generated PDF file after downloading
     if os.path.exists(pdf_output):
