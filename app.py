@@ -48,14 +48,18 @@ if submitted:
     # Define a custom PDF class to create the offer letter in A4 size
     class PDF(FPDF):
         def header(self):
-            # Place the logo at the top middle of the page
+            # Place the logo at the top middle of the page, smaller size
             if os.path.exists(logo):
                 page_width = self.w  # Get page width
-                logo_width = 60  # Adjust the width of the logo (you can modify this)
+                logo_width = 40  # Smaller width for the logo
                 x_position = (page_width - logo_width) / 2  # Calculate center
-                self.image(logo, x=x_position, y=10, w=logo_width)  # y=10 for top margin
+                self.image(logo, x=x_position, y=15, w=logo_width)  # y=15 for top margin
 
-            self.ln(40)  # Add some space after the logo
+            self.ln(30)  # Adjust the space after the logo
+
+            # Add bold company name under the logo, centered
+            self.set_font('Arial', 'B', 14)  # Bold, 14pt font
+            self.cell(0, 10, 'Biolume Skin Science Pvt. Ltd.', ln=True, align='C')
 
         def offer_letter_body(self, body):
             # Set margins and font for content
