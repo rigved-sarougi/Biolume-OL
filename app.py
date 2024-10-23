@@ -101,7 +101,7 @@ if submitted:
 
     # Function to send email with attachment
     def send_email(to_email, subject, body, attachment_file):
-        from_email = "Dataanalyst@biolume.in"  # Your email address
+        from_email = "dataanalyst@biolume.in"  # Your email address
         password = "bio666666@"  # Your email password (or app-specific password)
 
         # Create a multipart email message
