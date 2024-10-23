@@ -66,25 +66,28 @@ if submitted:
             # Set margins and font for content
             self.set_left_margin(20)
             self.set_right_margin(20)
-            self.set_font('Arial', '', 12)
-            
+            self.set_font('Helvetica', '', 12)  # Change to Helvetica
+
             # Process bold markers
             body_lines = body.split('\n')
             for line in body_lines:
+                if line.strip() == "":  # Skip empty lines
+                    continue
                 # Handle [BOLD] and [/BOLD] tags
                 parts = re.split(r'(\[BOLD\].*?\[/BOLD\])', line)
                 for part in parts:
                     if part.startswith('[BOLD]') and part.endswith('[/BOLD]'):
-                        self.set_font('Arial', 'B', 12)  # Set to bold
+                        self.set_font('Helvetica', 'B', 12)  # Set to bold
                         self.multi_cell(0, 8, part[7:-8])  # Remove bold markers
                     else:
-                        self.set_font('Arial', '', 12)  # Set to normal
-                        self.multi_cell(0, 8, part)
+                        self.set_font('Helvetica', '', 12)  # Set to normal
+                        if part.strip():  # Check for non-empty part
+                            self.multi_cell(0, 8, part)
 
         def footer(self):
             # Add footer information (page number)
             self.set_y(-15)
-            self.set_font('Arial', 'I', 8)
+            self.set_font('Helvetica', 'I', 8)  # Change to Helvetica
             self.cell(0, 10, f'Page {self.page_no()}', 0, 0, 'C')
 
     # Create a PDF document in A4 format
