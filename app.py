@@ -15,7 +15,7 @@ template = env.get_template('offer_letter_template.txt')
 st.title("Offer Letter Generator")
 
 # Logo image path and background image path
-logo = 'Untitled_design__4___1_-removebg-preview.png'
+logo = 'Untitled design.png'
 background_image = 'ddd.png'  # Path to the background image
 
 # Form to collect user input
@@ -66,28 +66,28 @@ if submitted:
             # Set margins and font for content
             self.set_left_margin(20)
             self.set_right_margin(20)
-            self.set_font('Helvetica', '', 12)  # Change to Helvetica
-
-            # Process bold markers
+            self.set_font('Arial', '', 12)
+            
+            # Replace **text** with bold text
             body_lines = body.split('\n')
             for line in body_lines:
-                if line.strip() == "":  # Skip empty lines
-                    continue
-                # Handle [BOLD] and [/BOLD] tags
-                parts = re.split(r'(\[BOLD\].*?\[/BOLD\])', line)
-                for part in parts:
-                    if part.startswith('[BOLD]') and part.endswith('[/BOLD]'):
-                        self.set_font('Helvetica', 'B', 12)  # Set to bold
-                        self.multi_cell(0, 8, part[7:-8])  # Remove bold markers
-                    else:
-                        self.set_font('Helvetica', '', 12)  # Set to normal
-                        if part.strip():  # Check for non-empty part
+                # Check for bold markers
+                if '**' in line:
+                    parts = re.split(r'(\*\*.*?\*\*)', line)
+                    for part in parts:
+                        if part.startswith('**') and part.endswith('**'):
+                            self.set_font('Arial', 'B', 12)  # Set to bold
+                            self.multi_cell(0, 8, part[2:-2])  # Remove bold markers
+                        else:
+                            self.set_font('Arial', '', 12)  # Set to normal
                             self.multi_cell(0, 8, part)
+                else:
+                    self.multi_cell(0, 8, line)
 
         def footer(self):
             # Add footer information (page number)
             self.set_y(-15)
-            self.set_font('Helvetica', 'I', 8)  # Change to Helvetica
+            self.set_font('Arial', 'I', 8)
             self.cell(0, 10, f'Page {self.page_no()}', 0, 0, 'C')
 
     # Create a PDF document in A4 format
