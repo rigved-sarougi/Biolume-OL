@@ -2,7 +2,6 @@ import streamlit as st
 from jinja2 import Environment, FileSystemLoader
 from fpdf import FPDF
 import os
-import re
 
 # Define the directory where the offer letter template is stored
 TEMPLATE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -35,8 +34,7 @@ if submitted:
         "name": name,
         "designation": designation,
         "salary": salary,
-        "joining_date": joining_date.strftime("%B %d, %Y"),
-        "company_name": "Biolume Skin Science Pvt. Ltd."
+        "joining_date": joining_date.strftime("%B %d, %Y")
     }
 
     # Render the offer letter content using the Jinja2 template
@@ -67,22 +65,7 @@ if submitted:
             self.set_left_margin(20)
             self.set_right_margin(20)
             self.set_font('Arial', '', 12)
-            
-            # Replace **text** with bold text
-            body_lines = body.split('\n')
-            for line in body_lines:
-                # Check for bold markers
-                if '**' in line:
-                    parts = re.split(r'(\*\*.*?\*\*)', line)
-                    for part in parts:
-                        if part.startswith('**') and part.endswith('**'):
-                            self.set_font('Arial', 'B', 12)  # Set to bold
-                            self.multi_cell(0, 8, part[2:-2])  # Remove bold markers
-                        else:
-                            self.set_font('Arial', '', 12)  # Set to normal
-                            self.multi_cell(0, 8, part)
-                else:
-                    self.multi_cell(0, 8, line)
+            self.multi_cell(0, 8, body)
 
         def footer(self):
             # Add footer information (page number)
