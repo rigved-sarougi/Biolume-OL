@@ -5,13 +5,6 @@ Sector-27, Atta, Gautambuddha Nagar
 Noida Uttar Pradesh 201301
 
 Date: {{ current_date }}
-
-**PRIVATE & CONFIDENTIAL**
-
-**To,**
-{{ name }}
-[Address of the Candidate]
-
 Subject: Offer of Employment
 
 Dear {{ name }},
