@@ -73,7 +73,7 @@ if submitted:
     # Email sending function
     def send_email(to_email, subject, body, attachment_file):
         from_email = "dataanalyst@biolume.in"  # Your email address
-        password = "bio666666@"  # Use your App Password here
+        password = "bio6666666@"  # Use your App Password here
 
         # Create a multipart email message
         msg = MIMEMultipart()
