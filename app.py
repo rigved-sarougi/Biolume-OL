@@ -48,21 +48,31 @@ if submitted:
     # Define a custom PDF class to create the offer letter in A4 size
     class PDF(FPDF):
         def header(self):
-            # Set the header with logo and company name (minimal spacing, no address)
-            self.set_font('Arial', 'B', 12)
+            # No header for the first page, as we will design it manually
+
+            # Set up the first page design
+            self.set_auto_page_break(auto=True, margin=15)
+            self.add_page()
+
+            # Add the logo at the center of the first page
             if os.path.exists(logo):
-                self.image(logo, 10, 8, 30)  # Logo at top left (size = 30mm wide)
-            self.set_xy(50, 10)  # Adjust positioning after the logo
-            self.cell(0, 10, 'Biolume Skin Science Pvt. Ltd.', ln=True, align='C')
-            self.ln(10)  # Minimal space after the header
+                # Center the logo: A4 page width = 210mm, so the image center is calculated
+                self.image(logo, x=75, y=100, w=60)  # Adjust 'x', 'y', 'w' values for fine-tuning
+
+            # Simple design on the first page (e.g., a horizontal line at the bottom)
+            self.set_draw_color(0, 0, 0)  # Black color
+            self.set_line_width(0.5)
+            self.line(10, 280, 200, 280)  # Horizontal line near the bottom of the first page
 
         def offer_letter_body(self, body):
-            # Set margins for A4 format (standard A4 width = 210mm, height = 297mm)
+            # Move to a new page for the content (after the first page with the logo)
+            self.add_page()
+
+            # Set margins and font for content
             self.set_left_margin(20)
             self.set_right_margin(20)
-            self.set_top_margin(50)
             self.set_font('Arial', '', 12)
-            self.multi_cell(0, 8, body)  # Reducing the line height to 8 for tighter content
+            self.multi_cell(0, 8, body)
 
         def footer(self):
             # Add footer information (page number)
@@ -72,7 +82,9 @@ if submitted:
 
     # Create a PDF document in A4 format
     pdf = PDF(orientation='P', unit='mm', format='A4')
-    pdf.add_page()
+
+    # First page will have the centered logo with a simple line design at the bottom
+    pdf.header()
 
     # Add the offer letter content to the PDF
     pdf.offer_letter_body(offer_letter_content)
