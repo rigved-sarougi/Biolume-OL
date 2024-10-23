@@ -48,12 +48,13 @@ if submitted:
     # Define a custom PDF class to create the offer letter in A4 size
     class PDF(FPDF):
         def header(self):
-            # Add header background image (A4 size)
-            if os.path.exists('Black & Orange Professional Company Letter A4 Document.png'):
-                self.image('Black & Orange Professional Company Letter A4 Document.png', x=0, y=0, w=210, h=297)
-            # Add company logo to the header
-            if logo is not None:
-                self.image(logo, 10, 8, 33)
+            # Set the header with text instead of an image
+            self.set_font('Arial', 'B', 12)
+            self.cell(0, 10, 'Biolume Skin Science Pvt. Ltd.', ln=True, align='C')
+            self.cell(0, 10, 'Ground Floor, Rampal Awana Complex', ln=True, align='C')
+            self.cell(0, 10, 'Rampal Awana Complex, Indra Market', ln=True, align='C')
+            self.cell(0, 10, 'Sector-27, Atta, Gautambuddha Nagar, Noida Uttar Pradesh 201301', ln=True, align='C')
+            self.ln(20)  # Adds space after the header
 
         def offer_letter_body(self, body):
             # Set margins for A4 format (standard A4 width = 210mm, height = 297mm)
@@ -62,6 +63,12 @@ if submitted:
             self.set_xy(margin_left, margin_top)
             self.set_font('Arial', '', 12)
             self.multi_cell(0, 10, body)
+
+        def footer(self):
+            # Add footer information (page number or additional details if needed)
+            self.set_y(-15)
+            self.set_font('Arial', 'I', 8)
+            self.cell(0, 10, f'Page {self.page_no()}', 0, 0, 'C')
 
     # Create a PDF document in A4 format
     pdf = PDF(orientation='P', unit='mm', format='A4')
