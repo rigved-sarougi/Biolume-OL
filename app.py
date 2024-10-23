@@ -2,6 +2,11 @@ import streamlit as st
 from jinja2 import Environment, FileSystemLoader
 from fpdf import FPDF
 import os
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email import encoders
+from email.mime.text import MIMEText
 
 # Define the directory where the offer letter template is stored
 TEMPLATE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -14,7 +19,7 @@ template = env.get_template('offer_letter_template.txt')
 st.title("Offer Letter Generator")
 
 # Logo image path and background image path
-logo = 'Untitled_design__4___1_-removebg-preview.png'
+logo = 'Untitled design.png'
 background_image = 'ddd.png'  # Path to the background image
 
 # Form to collect user input
@@ -23,6 +28,7 @@ with st.form("offer_letter_form"):
     designation = st.text_input("Employee Designation")
     salary = st.text_input("Employee Salary (in Rs.)")
     joining_date = st.date_input("Joining Date")
+    email = st.text_input("Recipient Email")  # Input for recipient email
 
     # Button to submit the form
     submitted = st.form_submit_button("Generate Offer Letter")
@@ -92,6 +98,45 @@ if submitted:
             file_name=pdf_output,
             mime='application/octet-stream'
         )
+
+    # Function to send email with attachment
+    def send_email(to_email, subject, body, attachment_file):
+        from_email = "dataanalyst@biolume.in"  # Your email address
+        password = "bio666666@"  # Your email password (or app-specific password)
+
+        # Create a multipart email message
+        msg = MIMEMultipart()
+        msg['From'] = from_email
+        msg['To'] = to_email
+        msg['Subject'] = subject
+        
+        # Attach the body text
+        msg.attach(MIMEText(body, 'plain'))
+
+        # Attach the PDF file
+        with open(attachment_file, "rb") as attachment:
+            part = MIMEBase('application', 'octet-stream')
+            part.set_payload(attachment.read())
+            encoders.encode_base64(part)
+            part.add_header('Content-Disposition', f'attachment; filename={os.path.basename(attachment_file)}')
+            msg.attach(part)
+
+        # Send the email
+        with smtplib.SMTP('smtp.example.com', 587) as server:  # Use your SMTP server
+            server.starttls()  # Upgrade to secure connection
+            server.login(from_email, password)
+            server.send_message(msg)
+
+    # Send email with the offer letter
+    email_subject = f"Offer Letter for {name}"
+    email_body = f"Dear {name},\n\nPlease find attached your offer letter.\n\nBest Regards,\nBiolume Skin Science Pvt. Ltd."
+    
+    if email:
+        try:
+            send_email(email, email_subject, email_body, pdf_output)
+            st.success(f"Offer letter sent successfully to {email}!")
+        except Exception as e:
+            st.error(f"Failed to send email: {e}")
 
     # Remove the generated PDF file after downloading
     if os.path.exists(pdf_output):
